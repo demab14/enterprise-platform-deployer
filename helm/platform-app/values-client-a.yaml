@@ -1,0 +1,46 @@
+client:
+  name: "client-a"
+  environment: "production"
+  cloudProvider: "aws"
+
+image:
+  repository: "743676310994.dkr.ecr.eu-west-1.amazonaws.com/epd-client-a"
+  tag: "latest"
+
+replicaCount: 3
+
+ingress:
+  hosts:
+    - host: "platform.client-a.example.com"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: client-a-tls
+      hosts:
+        - "platform.client-a.example.com"
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+
+# IRSA — pod assumes this IAM role for AWS access
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::743676310994:role/epd-client-a-role"
+
+autoscaling:
+  minReplicas: 3
+  maxReplicas: 8
+
+env:
+  - name: LOG_LEVEL
+    value: "warn"
+  - name: PORT
+    value: "8080"
+  - name: CLIENT_ID
+    value: "client-a"

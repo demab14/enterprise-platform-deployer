@@ -1,0 +1,14 @@
+apiVersion: v2
+name: platform-app
+description: Enterprise Platform Deployer — multi-client Helm chart
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Saheed Ademola Abayomi
+    email: ademolaabayomi@gmail.com
+keywords:
+  - enterprise
+  - platform
+  - devops
+  - multi-client

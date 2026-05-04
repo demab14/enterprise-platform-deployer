@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────
+# Default values — overridden per client via:
+#   values-client-a.yaml
+#   values-client-b.yaml
+#   values-client-c.yaml
+# ─────────────────────────────────────────────
+
+replicaCount: 2
+
+image:
+  repository: ""        # set per client
+  tag: "latest"         # updated by CI pipeline automatically
+  pullPolicy: IfNotPresent
+
+client:
+  name: ""              # e.g. client-a
+  environment: "production"
+  cloudProvider: "aws"  # aws | azure | gcp
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: ""          # set per client
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+
+# Security — non-root container
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# Vault secrets injection
+vault:
+  enabled: true
+  role: "platform-app"
+  secretPath: "secret/data/platform-app"
+
+# Prometheus metrics
+metrics:
+  enabled: true
+  port: 9090
+  path: /metrics
+  serviceMonitor:
+    enabled: true
+
+serviceAccount:
+  create: true
+  annotations: {}   # IRSA annotation set per client
+
+env:
+  - name: LOG_LEVEL
+    value: "info"
+  - name: PORT
+    value: "8080"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

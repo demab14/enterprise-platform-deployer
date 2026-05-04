@@ -1,0 +1,30 @@
+client:
+  name: "client-b"
+  environment: "staging"
+  cloudProvider: "azure"
+
+image:
+  repository: "epdregistry.azurecr.io/epd-client-b"
+  tag: "latest"
+
+replicaCount: 2
+
+ingress:
+  hosts:
+    - host: "platform.client-b.example.com"
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Azure Workload Identity annotation
+serviceAccount:
+  annotations:
+    azure.workload.identity/client-id: "client-b-workload-identity-client-id"
+
+env:
+  - name: LOG_LEVEL
+    value: "info"
+  - name: PORT
+    value: "8080"
+  - name: CLIENT_ID
+    value: "client-b"

@@ -1,0 +1,35 @@
+# Terraform providers and state — these are huge binary files
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+# Sensitive files — never commit
+*.pem
+*.key
+*.tfvars
+secrets/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code server — never commit
+.vscode-server/
+.cache/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Helm dependencies
+helm/*/charts/
+helm/*/Chart.lock
