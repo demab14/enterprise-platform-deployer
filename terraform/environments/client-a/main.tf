@@ -14,7 +14,7 @@ provider "aws" {
 module "eks" {
   source = "../../modules/eks-aws"
 
-  cluster_name          = "epd-client-c"
+  cluster_name          = "epd-client-a"
   kubernetes_version    = var.kubernetes_version
   vpc_cidr              = var.vpc_cidr
   availability_zones    = var.availability_zones
@@ -31,14 +31,14 @@ module "eks" {
 module "ecr" {
   source = "../../modules/ecr"
 
-  repository_name = "epd-client-c/platform-app"
+  repository_name = "epd-client-a/platform-app"
   tags             = local.common_tags
 }
 
 module "vault" {
   source = "../../modules/vault"
 
-  cluster_name       = "epd-client-c"
+  cluster_name       = "epd-client-a"
   oidc_provider_arn  = module.eks.oidc_provider_arn
   oidc_provider_url  = module.eks.oidc_provider_url
 
@@ -48,7 +48,7 @@ module "vault" {
 locals {
   common_tags = {
     Project     = "enterprise-platform-deployer"
-    Client      = "client-c"
+    Client      = "client-a"
     Environment = var.environment
     ManagedBy   = "terraform"
   }

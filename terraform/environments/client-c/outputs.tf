@@ -13,3 +13,11 @@ output "oidc_provider_url" {
 output "ecr_repository_url" {
   value = module.ecr.repository_url
 }
+
+output "vault_kms_key_id" {
+  value = module.vault.kms_key_id
+}
+
+output "vault_iam_role_arn" {
+  value = module.vault.vault_iam_role_arn
+}

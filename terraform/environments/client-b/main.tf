@@ -35,6 +35,16 @@ module "ecr" {
   tags             = local.common_tags
 }
 
+module "vault" {
+  source = "../../modules/vault"
+
+  cluster_name       = "epd-client-b"
+  oidc_provider_arn  = module.eks.oidc_provider_arn
+  oidc_provider_url  = module.eks.oidc_provider_url
+
+  tags = local.common_tags
+}
+
 locals {
   common_tags = {
     Project     = "enterprise-platform-deployer"
