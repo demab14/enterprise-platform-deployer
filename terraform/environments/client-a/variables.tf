@@ -12,7 +12,7 @@ variable "environment" {
 
 variable "kubernetes_version" {
   type    = string
-  default = "1.30"
+  default = "1.34"
 }
 
 variable "vpc_cidr" {
@@ -42,7 +42,7 @@ variable "node_instance_types" {
 
 variable "node_desired_count" {
   type    = number
-  default = 2
+  default = 3
 }
 
 variable "node_min_count" {

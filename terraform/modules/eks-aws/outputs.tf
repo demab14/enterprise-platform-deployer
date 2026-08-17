@@ -47,3 +47,6 @@ output "node_role_arn" {
   description = "ARN of the IAM role used by worker nodes"
   value       = aws_iam_role.node.arn
 }
+output "ebs_csi_role_arn" {
+  value = aws_iam_role.ebs_csi.arn
+}
